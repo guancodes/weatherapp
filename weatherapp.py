@@ -186,7 +186,8 @@ def main():
     make_label(window, 'Sea level', 5, 2)
     slvl_txt = make_text(window, 5, 3)
 
-    form = Form(temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt, wdgr_txt, hmd_txt, slvl_txt, name_txt)
+    form = Form(temp_txt, mint_txt, maxt_txt, wther_txt, des_txt,
+                wspd_txt, wdgr_txt, hmd_txt, slvl_txt, name_txt)
     command = partial(fill_form, form, city_value)
 
     srch = tk.Button(window,  text='Search', command=command)
