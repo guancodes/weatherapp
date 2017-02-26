@@ -3,10 +3,10 @@ import tkinter as tk
 import requests
 import json
 import math
+from functools import partial
 
-window = tk.Tk()
 
-def getinfo():
+def fill_form(temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt, wdgr_txt, hmd_txt, slvl_txt, name_txt, city_value):
     temp_txt.delete(1.0, tk.END)
     mint_txt.delete(1.0, tk.END)
     maxt_txt.delete(1.0, tk.END)
@@ -119,84 +119,91 @@ def getinfo():
         else:
             name_txt.insert(tk.END, 'n/a')
 
-
     else:
         temp_txt.insert(tk.END, '↑Invalid city name↑')
 
 
+def main():
+    window = tk.Tk()
+
+    city_label = tk.Label(window, text='City', justify=tk.LEFT)
+    city_label.grid(row=0, column =0)
+
+    city_value = tk.StringVar()
+    city_entry = tk.Entry(window, textvariable=city_value)
+    city_entry.grid(row=0, column=1)
 
 
 
-city_label = tk.Label(window, text='City', justify=tk.LEFT)
-city_label.grid(row=0, column =0)
+    temp_label = tk.Label(window, text='Temperature', justify=tk.LEFT)
+    temp_label.grid(row=1, column=0)
 
-city_value = tk.StringVar()
-city_entry = tk.Entry(window, textvariable=city_value)
-city_entry.grid(row=0, column=1)
+    temp_txt = tk.Text(window, width=20, height=1)
+    temp_txt.grid(row=1, column=1)
 
-srch = tk.Button(window,  text='Search', command=getinfo)
-srch.grid(row=0, column=2)
+    name_label = tk.Label(window, text='Station Name', justify=tk.LEFT)
+    name_label.grid(row=1, column=2)
 
-temp_label = tk.Label(window, text='Temperature', justify=tk.LEFT)
-temp_label.grid(row=1, column=0)
+    name_txt = tk.Text(window, width=20, height=1)
+    name_txt.grid(row=1, column=3)
 
-temp_txt = tk.Text(window, width=20, height=1)
-temp_txt.grid(row=1, column=1)
+    mint_label = tk.Label(window, text='Min Temp', justify=tk.LEFT)
+    mint_label.grid(row=2, column=0)
 
-name_label = tk.Label(window, text='Station Name', justify=tk.LEFT)
-name_label.grid(row=1, column=2)
+    mint_txt = tk.Text(window, width=20, height=1)
+    mint_txt.grid(row=2, column=1)
 
-name_txt = tk.Text(window, width=20, height=1)
-name_txt.grid(row=1, column=3)
+    maxt_label= tk.Label(window, text='Max Temp', justify=tk.LEFT)
+    maxt_label.grid(row=2, column=2)
 
-mint_label = tk.Label(window, text='Min Temp', justify=tk.LEFT)
-mint_label.grid(row=2, column=0)
+    maxt_txt = tk.Text(window, width=20, height=1)
+    maxt_txt.grid(row=2, column=3)
 
-mint_txt = tk.Text(window, width=20, height=1)
-mint_txt.grid(row=2, column=1)
+    wther_label = tk.Label(window, text='Weather', justify=tk.LEFT)
+    wther_label.grid(row=3, column=0)
 
-maxt_label= tk.Label(window, text='Max Temp', justify=tk.LEFT)
-maxt_label.grid(row=2, column=2)
+    wther_txt = tk.Text(window, width=20, height=1)
+    wther_txt.grid(row=3, column=1)
 
-maxt_txt = tk.Text(window, width=20, height=1)
-maxt_txt.grid(row=2, column=3)
+    des_label = tk.Label(window, text='Description', justify=tk.LEFT)
+    des_label.grid(row=3, column=2)
 
-wther_label = tk.Label(window, text='Weather', justify=tk.LEFT)
-wther_label.grid(row=3, column=0)
-
-wther_txt = tk.Text(window, width=20, height=1)
-wther_txt.grid(row=3, column=1)
-
-des_label = tk.Label(window, text='Description', justify=tk.LEFT)
-des_label.grid(row=3, column=2)
-
-des_txt = tk.Text(window, width=20, height=1)
-des_txt.grid(row=3, column=3, columnspan=3)
+    des_txt = tk.Text(window, width=20, height=1)
+    des_txt.grid(row=3, column=3, columnspan=3)
 
 
 
-wspd_label = tk.Label(window, text='Wind speed')
-wspd_label.grid(row=4, column=0)
+    wspd_label = tk.Label(window, text='Wind speed')
+    wspd_label.grid(row=4, column=0)
 
-wspd_txt = tk.Text(window, width=20, height=1)
-wspd_txt.grid(row=4, column=1)
+    wspd_txt = tk.Text(window, width=20, height=1)
+    wspd_txt.grid(row=4, column=1)
 
-wdgr_label = tk.Label(window, text='Wind degree')
-wdgr_label.grid(row=4, column=2)
+    wdgr_label = tk.Label(window, text='Wind degree')
+    wdgr_label.grid(row=4, column=2)
 
-wdgr_txt = tk.Text(window, width=20, height=1)
-wdgr_txt.grid(row=4, column=3)
+    wdgr_txt = tk.Text(window, width=20, height=1)
+    wdgr_txt.grid(row=4, column=3)
 
-hmd_label = tk.Label(window, text='Humidity')
-hmd_label.grid(row=5, column=0)
+    hmd_label = tk.Label(window, text='Humidity')
+    hmd_label.grid(row=5, column=0)
 
-hmd_txt = tk.Text(window, width=20, height=1)
-hmd_txt.grid(row=5, column=1)
+    hmd_txt = tk.Text(window, width=20, height=1)
+    hmd_txt.grid(row=5, column=1)
 
-slvl_label = tk.Label(window, text='Sea level')
-slvl_label.grid(row=5, column=2)
+    slvl_label = tk.Label(window, text='Sea level')
+    slvl_label.grid(row=5, column=2)
 
-slvl_txt = tk.Text(window, width=20, height=1)
-slvl_txt.grid(row=5, column=3)
+    slvl_txt = tk.Text(window, width=20, height=1)
+    slvl_txt.grid(row=5, column=3)
 
-window.mainloop()
+    command = partial(fill_form, temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt, wdgr_txt, hmd_txt, slvl_txt, name_txt, city_value)
+
+    srch = tk.Button(window,  text='Search', command=command)
+    srch.grid(row=0, column=2)
+
+    window.mainloop()
+
+
+if __name__ == '__main__':
+    main()
