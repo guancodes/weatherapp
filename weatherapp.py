@@ -150,7 +150,7 @@ def make_text(window, row, column, columnspan=None):
 def main():
     window = tk.Tk()
 
-    city_label = make_label(window, 'City', 0, 0)
+    make_label(window, 'City', 0, 0)
 
     city_value = tk.StringVar()
     city_entry = tk.Entry(window, textvariable=city_value)
