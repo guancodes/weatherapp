@@ -4,6 +4,7 @@ import requests
 import json
 import math
 from functools import partial
+import http.client
 
 class Form:
     def __init__(self, temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt,
@@ -33,9 +34,9 @@ def clear_form(form):
 
 def web_request(form, city_value):
     citynm = city_value.get()
-    params = dict(q=citynm, APPID = '26ee310aed6872889843892aa2ff1c1b')
+    params = dict(q=citynm, APPID='26ee310aed6872889843892aa2ff1c1b')
     resp = requests.get('http://api.openweathermap.org/data/2.5/weather', params)
-    if resp.status_code == 200:
+    if resp.status_code == http.client.OK:
         return resp.json()
     else:
         form.temp_txt.insert(tk.END, '↑Invalid city name↑')
