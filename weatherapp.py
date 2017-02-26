@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import tkinter as tk
 import requests
-import json
 import math
 from functools import partial
 import http.client
@@ -73,7 +72,7 @@ def fill_form_main_section(form, info, na):
             humidity = '%s %%' % humidity
         form.hmd_txt.insert(tk.END, humidity)
 
-                    # get sea level info
+        # get sea level info
         sea_level = main_section.get('sea_level', na)
         if sea_level != na:
             sea_level = '%s m' % sea_level
