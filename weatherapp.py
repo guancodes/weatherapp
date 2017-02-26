@@ -40,6 +40,48 @@ def web_request(form, city_value):
     else:
         form.temp_txt.insert(tk.END, '↑Invalid city name↑')
 
+def fill_form_main_section(form, info, na):
+    # information from main section
+    main_section = info.get('main')
+    if main_section != None:
+        # get temperature
+        temp_avg = main_section.get('temp', na)
+        if temp_avg != na:
+            temp_avg = '%s °C' % int(round(temp_avg - 273.15))
+        form.temp_txt.insert(tk.END, temp_avg)
+
+        # get min temperature
+        temp_min = main_section.get('temp_min', na)
+        if temp_min != na:
+            temp_min = '%s °C' % int(math.floor(temp_min - 273.15))
+        form.mint_txt.insert(tk.END, temp_min)
+
+        # get max temperature
+        temp_max = main_section.get('temp_max', na)
+        if temp_max != na:
+            temp_max = '%s °C' % int(math.ceil(temp_max - 273.15))
+        form.maxt_txt.insert(tk.END, temp_max)
+
+        # get humidity info
+        humidity = main_section.get('humidity', na)
+        if humidity != na:
+            humidity = '%s %%' % humidity
+        form.hmd_txt.insert(tk.END, humidity)
+
+                    # get sea level info
+        sea_level = main_section.get('sea_level', na)
+        if sea_level != na:
+            sea_level = '%s m' % sea_level
+        form.slvl_txt.insert(tk.END, sea_level)
+
+    else:
+        form.temp_txt.insert(tk.END, na)
+        form.mint_txt.insert(tk.END, na)
+        form.maxt_txt.insert(tk.END, na)
+        form.hmd_txt.insert(tk.END, na)
+        form.slvl_txt.insert(tk.END,na)
+
+
 
 def fill_form(form, city_value):
     clear_form(form)
@@ -47,46 +89,7 @@ def fill_form(form, city_value):
     na = 'n/a'
 
     if info != None:
-        # information from main section
-        main_section = info.get('main')
-        if main_section != None:
-            # get temperature
-            temp_avg = main_section.get('temp', na)
-            if temp_avg != na:
-                temp_avg = '%s °C' % int(round(temp_avg - 273.15))
-            form.temp_txt.insert(tk.END, temp_avg)
-
-            # get min temperature
-            temp_min = main_section.get('temp_min', na)
-            if temp_min != na:
-                temp_min = '%s °C' % int(math.floor(temp_min - 273.15))
-            form.mint_txt.insert(tk.END, temp_min)
-
-            # get max temperature
-            temp_max = main_section.get('temp_max', na)
-            if temp_max != na:
-                temp_max = '%s °C' % int(math.ceil(temp_max - 273.15))
-            form.maxt_txt.insert(tk.END, temp_max)
-
-            # get humidity info
-            humidity = main_section.get('humidity', na)
-            if humidity != na:
-                humidity = '%s %%' % humidity
-            form.hmd_txt.insert(tk.END, humidity)
-
-                        # get sea level info
-            sea_level = main_section.get('sea_level', na)
-            if sea_level != na:
-                sea_level = '%s m' % sea_level
-            form.slvl_txt.insert(tk.END, sea_level)
-
-        else:
-            form.temp_txt.insert(tk.END, na)
-            form.mint_txt.insert(tk.END, na)
-            form.maxt_txt.insert(tk.END, na)
-            form.hmd_txt.insert(tk.END, na)
-            form.slvl_txt.insert(tk.END,na)
-
+        fill_form_main_section(form, info, na)
         # information from weather section
         weather_section = info.get('weather')
         if weather_section != None:
