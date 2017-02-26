@@ -44,102 +44,83 @@ def web_request(form, city_value):
 def fill_form(form, city_value):
     clear_form(form)
     info = web_request(form, city_value)
+    na = 'n/a'
 
     if info != None:
         # information from main section
         main_section = info.get('main')
         if main_section != None:
             # get temperature
-            temp_avg = main_section.get('temp')
-            if temp_avg != None:
-                temp_avg = int(round(temp_avg - 273.15))
-                form.temp_txt.insert(tk.END, temp_avg)
-                form.temp_txt.insert(tk.END, '°C')
-            else:
-                form.temp_txt.insert(tk.END, 'n/a')
+            temp_avg = main_section.get('temp', na)
+            if temp_avg != na:
+                temp_avg = '%s °C' % int(round(temp_avg - 273.15))
+            form.temp_txt.insert(tk.END, temp_avg)
+
             # get min temperature
-            temp_min = main_section.get('temp_min')
-            if temp_min != None:
-                temp_min = int(math.floor(temp_min - 273.15))
-                form.mint_txt.insert(tk.END, temp_min)
-                form.mint_txt.insert(tk.END, '°C')
-            else:
-                form.mint_txt.insert(tk.END, 'n/a')
+            temp_min = main_section.get('temp_min', na)
+            if temp_min != na:
+                temp_min = '%s °C' % int(math.floor(temp_min - 273.15))
+            form.mint_txt.insert(tk.END, temp_min)
+
             # get max temperature
-            temp_max = main_section.get('temp_max')
-            if temp_max != None:
-                temp_max = int(math.ceil(temp_max - 273.15))
-                form.maxt_txt.insert(tk.END, temp_max)
-                form.maxt_txt.insert(tk.END, '°C')
-            else:
-                form.maxt_txt.insert(tk.END, 'n/a')
+            temp_max = main_section.get('temp_max', na)
+            if temp_max != na:
+                temp_max = '%s °C' % int(math.ceil(temp_max - 273.15))
+            form.maxt_txt.insert(tk.END, temp_max)
+
             # get humidity info
-            humidity = main_section.get('humidity')
-            if humidity != None:
-                form.hmd_txt.insert(tk.END, humidity)
-                form.hmd_txt.insert(tk.END, '%')
-            else:
-                form.hmd_txt.insert(tk.END, 'n/a')
-            # get sea level info
-            sea_level = main_section.get('sea_level')
-            if sea_level != None:
-                form.slvl_txt.insert(tk.END, sea_level)
-                form.slvl_txt.insert(tk.END,'m')
-            else:
-                form.slvl_txt.insert(tk.END,'n/a')
+            humidity = main_section.get('humidity', na)
+            if humidity != na:
+                humidity = '%s %%' % humidity
+            form.hmd_txt.insert(tk.END, humidity)
+
+                        # get sea level info
+            sea_level = main_section.get('sea_level', na)
+            if sea_level != na:
+                sea_level = '%s m' % sea_level
+            form.slvl_txt.insert(tk.END, sea_level)
 
         else:
-            form.temp_txt.insert(tk.END, 'n/a')
-            form.mint_txt.insert(tk.END, 'n/a')
-            form.maxt_txt.insert(tk.END, 'n/a')
-            form.hmd_txt.insert(tk.END, 'n/a')
-            form.slvl_txt.insert(tk.END,'n/a')
+            form.temp_txt.insert(tk.END, na)
+            form.mint_txt.insert(tk.END, na)
+            form.maxt_txt.insert(tk.END, na)
+            form.hmd_txt.insert(tk.END, na)
+            form.slvl_txt.insert(tk.END,na)
 
         # information from weather section
         weather_section = info.get('weather')
         if weather_section != None:
             # get the weather info
-            short_description = weather_section[0].get('main')
-            if short_description != None:
-                form.wther_txt.insert(tk.END, short_description)
-            else:
-                form.wther_txt.insert(tk.END, 'n/a')
+            short_description = weather_section[0].get('main', na)
+            form.wther_txt.insert(tk.END, short_description)
+
             # get the longer weather description
-            long_description = weather_section[0].get('description')
-            if long_description != None:
-                form.des_txt.insert(tk.END, long_description)
-            else:
-                form.des_txt.insert(tk.END, 'n/a')
+            long_description = weather_section[0].get('description', na)
+            form.des_txt.insert(tk.END, long_description)
         else:
-            form.wther_txt.insert(tk.END, 'n/a')
-            form.des_txt.insert(tk.END, 'n/a')
+            form.wther_txt.insert(tk.END, na)
+            form.des_txt.insert(tk.END, na)
         # wind section
         wind_section = info.get('wind')
         if wind_section != None:
             # get the wind speed info
-            wind_speed = wind_section.get('speed')
-            if wind_speed != None:
-                form.wspd_txt.insert(tk.END, wind_speed)
-                form.wspd_txt.insert(tk.END, 'm/s')
-            else:
-                form.wspd_txt.insert(tk.END, 'n/a')
+            wind_speed = wind_section.get('speed', na)
+            if wind_speed != na:
+                wind_speed = '%s m/s' % wind_speed
+            form.wspd_txt.insert(tk.END, wind_speed)
+
             # get the wind degree info
-            wind_degree = wind_section.get('deg')
-            if wind_degree != None:
-                form.wdgr_txt.insert(tk.END, wind_degree)
-                form.wdgr_txt.insert(tk.END, '°')
-            else:
-                form.wdgr_txt.insert(tk.END, 'n/a')
+            wind_degree = wind_section.get('deg', na)
+            if wind_degree != na:
+                wind_degree = '%s °' % wind_degree
+            form.wdgr_txt.insert(tk.END, wind_degree)
+
         else:
-            form.wspd_txt.insert(tk.END, 'n/a')
-            form.wdgr_txt.insert(tk.END, 'n/a')
+            form.wspd_txt.insert(tk.END, na)
+            form.wdgr_txt.insert(tk.END, na)
         # name section
-        name_section = info.get('name')
-        if name_section != None:
-            # get name
-            form.name_txt.insert(tk.END, name_section)
-        else:
-            form.name_txt.insert(tk.END, 'n/a')
+        name_section = info.get('name', na)
+        form.name_txt.insert(tk.END, name_section)
 
 
 
