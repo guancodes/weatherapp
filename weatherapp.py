@@ -81,7 +81,20 @@ def fill_form_main_section(form, info, na):
         form.hmd_txt.insert(tk.END, na)
         form.slvl_txt.insert(tk.END,na)
 
+def fill_form_weather_section(form, info, na):
+    # information from weather section
+    weather_section = info.get('weather')
+    if weather_section != None:
+        # get the weather info
+        short_description = weather_section[0].get('main', na)
+        form.wther_txt.insert(tk.END, short_description)
 
+        # get the longer weather description
+        long_description = weather_section[0].get('description', na)
+        form.des_txt.insert(tk.END, long_description)
+    else:
+        form.wther_txt.insert(tk.END, na)
+        form.des_txt.insert(tk.END, na)
 
 def fill_form(form, city_value):
     clear_form(form)
@@ -90,19 +103,7 @@ def fill_form(form, city_value):
 
     if info != None:
         fill_form_main_section(form, info, na)
-        # information from weather section
-        weather_section = info.get('weather')
-        if weather_section != None:
-            # get the weather info
-            short_description = weather_section[0].get('main', na)
-            form.wther_txt.insert(tk.END, short_description)
-
-            # get the longer weather description
-            long_description = weather_section[0].get('description', na)
-            form.des_txt.insert(tk.END, long_description)
-        else:
-            form.wther_txt.insert(tk.END, na)
-            form.des_txt.insert(tk.END, na)
+        fill_form_weather_section(form, info, na)
         # wind section
         wind_section = info.get('wind')
         if wind_section != None:
