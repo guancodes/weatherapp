@@ -116,6 +116,11 @@ def fill_form_wind_section(form, info, na):
         form.wspd_txt.insert(tk.END, na)
         form.wdgr_txt.insert(tk.END, na)
 
+def fill_form_name_section(form, info, na):
+    # name section
+    name_section = info.get('name', na)
+    form.name_txt.insert(tk.END, name_section)
+
 def fill_form(form, city_value):
     clear_form(form)
     info = web_request(form, city_value)
@@ -125,12 +130,7 @@ def fill_form(form, city_value):
         fill_form_main_section(form, info, na)
         fill_form_weather_section(form, info, na)
         fill_form_wind_section(form, info, na)
-        # name section
-        name_section = info.get('name', na)
-        form.name_txt.insert(tk.END, name_section)
-
-
-
+        fill_form_name_section(form, info, na)
 
 def main():
     window = tk.Tk()
