@@ -41,6 +41,10 @@ def web_request(form, city_value):
     else:
         form.temp_txt.insert(tk.END, '↑Invalid city name↑')
 
+def kelvin_to_celsius(value):
+    return value - 273.15
+
+
 def fill_form_main_section(form, info, na):
     # information from main section
     main_section = info.get('main')
@@ -48,19 +52,19 @@ def fill_form_main_section(form, info, na):
         # get temperature
         temp_avg = main_section.get('temp', na)
         if temp_avg != na:
-            temp_avg = '%s °C' % int(round(temp_avg - 273.15))
+            temp_avg = '%s °C' % int(round(kelvin_to_celsius(temp_avg)))
         form.temp_txt.insert(tk.END, temp_avg)
 
         # get min temperature
         temp_min = main_section.get('temp_min', na)
         if temp_min != na:
-            temp_min = '%s °C' % int(math.floor(temp_min - 273.15))
+            temp_min = '%s °C' % int(math.floor(kelvin_to_celsius(temp_min)))
         form.mint_txt.insert(tk.END, temp_min)
 
         # get max temperature
         temp_max = main_section.get('temp_max', na)
         if temp_max != na:
-            temp_max = '%s °C' % int(math.ceil(temp_max - 273.15))
+            temp_max = '%s °C' % int(math.ceil(kelvin_to_celsius(temp_max)))
         form.maxt_txt.insert(tk.END, temp_max)
 
         # get humidity info
