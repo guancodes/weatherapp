@@ -96,6 +96,26 @@ def fill_form_weather_section(form, info, na):
         form.wther_txt.insert(tk.END, na)
         form.des_txt.insert(tk.END, na)
 
+def fill_form_wind_section(form, info, na):
+    # wind section
+    wind_section = info.get('wind')
+    if wind_section != None:
+        # get the wind speed info
+        wind_speed = wind_section.get('speed', na)
+        if wind_speed != na:
+            wind_speed = '%s m/s' % wind_speed
+        form.wspd_txt.insert(tk.END, wind_speed)
+
+        # get the wind degree info
+        wind_degree = wind_section.get('deg', na)
+        if wind_degree != na:
+            wind_degree = '%s °' % wind_degree
+        form.wdgr_txt.insert(tk.END, wind_degree)
+
+    else:
+        form.wspd_txt.insert(tk.END, na)
+        form.wdgr_txt.insert(tk.END, na)
+
 def fill_form(form, city_value):
     clear_form(form)
     info = web_request(form, city_value)
@@ -104,24 +124,7 @@ def fill_form(form, city_value):
     if info != None:
         fill_form_main_section(form, info, na)
         fill_form_weather_section(form, info, na)
-        # wind section
-        wind_section = info.get('wind')
-        if wind_section != None:
-            # get the wind speed info
-            wind_speed = wind_section.get('speed', na)
-            if wind_speed != na:
-                wind_speed = '%s m/s' % wind_speed
-            form.wspd_txt.insert(tk.END, wind_speed)
-
-            # get the wind degree info
-            wind_degree = wind_section.get('deg', na)
-            if wind_degree != na:
-                wind_degree = '%s °' % wind_degree
-            form.wdgr_txt.insert(tk.END, wind_degree)
-
-        else:
-            form.wspd_txt.insert(tk.END, na)
-            form.wdgr_txt.insert(tk.END, na)
+        fill_form_wind_section(form, info, na)
         # name section
         name_section = info.get('name', na)
         form.name_txt.insert(tk.END, name_section)
