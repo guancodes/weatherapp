@@ -137,79 +137,55 @@ def fill_form(form, city_value):
         fill_form_wind_section(form, info, na)
         fill_form_name_section(form, info, na)
 
+def make_label(window, text, row, column):
+    label = tk.Label(window, text=text, justify=tk.LEFT)
+    label.grid(row=row, column=column)
+    return label
+
+def make_text(window, row, column, columnspan=None):
+    txt = tk.Text(window, width=20, height=1)
+    txt.grid(row=row, column=column, columnspan=columnspan)
+    return txt
+
+
 def main():
     window = tk.Tk()
 
-    city_label = tk.Label(window, text='City', justify=tk.LEFT)
-    city_label.grid(row=0, column =0)
+    city_label = make_label(window, 'City', 0, 0)
 
     city_value = tk.StringVar()
     city_entry = tk.Entry(window, textvariable=city_value)
     city_entry.grid(row=0, column=1)
 
+    make_label(window, 'Temperature', 1, 0)
+    temp_txt = make_text(window, 1, 1)
 
+    make_label(window, 'Station Name', 1, 2)
+    name_txt = make_text(window, 1, 3)
 
-    temp_label = tk.Label(window, text='Temperature', justify=tk.LEFT)
-    temp_label.grid(row=1, column=0)
+    make_label(window, 'Min Temp', 2, 0)
+    mint_txt = make_text(window, 2, 1)
 
-    temp_txt = tk.Text(window, width=20, height=1)
-    temp_txt.grid(row=1, column=1)
+    make_label(window, 'Max Temp', 2, 2)
+    maxt_txt = make_text(window, 2, 3)
 
-    name_label = tk.Label(window, text='Station Name', justify=tk.LEFT)
-    name_label.grid(row=1, column=2)
+    make_label(window, 'Weather', 3, 0)
+    wther_txt = make_text(window, 3, 1)
 
-    name_txt = tk.Text(window, width=20, height=1)
-    name_txt.grid(row=1, column=3)
+    make_label(window, 'Description', 3, 2)
+    des_txt = make_text(window, 3, 3, 3)
 
-    mint_label = tk.Label(window, text='Min Temp', justify=tk.LEFT)
-    mint_label.grid(row=2, column=0)
+    make_label(window, 'Wind speed', 4, 0)
+    wspd_txt = make_text(window, 4, 1)
 
-    mint_txt = tk.Text(window, width=20, height=1)
-    mint_txt.grid(row=2, column=1)
+    make_label(window, 'Wind degree', 4, 2)
+    wdgr_txt = make_text(window, 4, 3)
 
-    maxt_label= tk.Label(window, text='Max Temp', justify=tk.LEFT)
-    maxt_label.grid(row=2, column=2)
+    make_label(window, 'Humidity', 5, 0)
+    hmd_txt = make_text(window, 5, 1)
 
-    maxt_txt = tk.Text(window, width=20, height=1)
-    maxt_txt.grid(row=2, column=3)
-
-    wther_label = tk.Label(window, text='Weather', justify=tk.LEFT)
-    wther_label.grid(row=3, column=0)
-
-    wther_txt = tk.Text(window, width=20, height=1)
-    wther_txt.grid(row=3, column=1)
-
-    des_label = tk.Label(window, text='Description', justify=tk.LEFT)
-    des_label.grid(row=3, column=2)
-
-    des_txt = tk.Text(window, width=20, height=1)
-    des_txt.grid(row=3, column=3, columnspan=3)
-
-
-
-    wspd_label = tk.Label(window, text='Wind speed')
-    wspd_label.grid(row=4, column=0)
-
-    wspd_txt = tk.Text(window, width=20, height=1)
-    wspd_txt.grid(row=4, column=1)
-
-    wdgr_label = tk.Label(window, text='Wind degree')
-    wdgr_label.grid(row=4, column=2)
-
-    wdgr_txt = tk.Text(window, width=20, height=1)
-    wdgr_txt.grid(row=4, column=3)
-
-    hmd_label = tk.Label(window, text='Humidity')
-    hmd_label.grid(row=5, column=0)
-
-    hmd_txt = tk.Text(window, width=20, height=1)
-    hmd_txt.grid(row=5, column=1)
-
-    slvl_label = tk.Label(window, text='Sea level')
-    slvl_label.grid(row=5, column=2)
-
-    slvl_txt = tk.Text(window, width=20, height=1)
-    slvl_txt.grid(row=5, column=3)
+    make_label(window, 'Sea level', 5, 2)
+    slvl_txt = make_text(window, 5, 3)
 
     form = Form(temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt, wdgr_txt, hmd_txt, slvl_txt, name_txt)
     command = partial(fill_form, form, city_value)
