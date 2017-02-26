@@ -31,15 +31,21 @@ def clear_form(form):
     form.slvl_txt.delete(1.0, tk.END)
     form.name_txt.delete(1.0, tk.END)
 
-
-def fill_form(form, city_value):
-    clear_form(form)
+def web_request(form, city_value):
     citynm = city_value.get()
     params = dict(q=citynm, APPID = '26ee310aed6872889843892aa2ff1c1b')
     resp = requests.get('http://api.openweathermap.org/data/2.5/weather', params)
-
     if resp.status_code == 200:
-        info = resp.json()
+        return resp.json()
+    else:
+        form.temp_txt.insert(tk.END, '↑Invalid city name↑')
+
+
+def fill_form(form, city_value):
+    clear_form(form)
+    info = web_request(form, city_value)
+
+    if info != None:
         # information from main section
         main_section = info.get('main')
         if main_section != None:
@@ -135,8 +141,7 @@ def fill_form(form, city_value):
         else:
             form.name_txt.insert(tk.END, 'n/a')
 
-    else:
-        form.temp_txt.insert(tk.END, '↑Invalid city name↑')
+
 
 
 def main():
