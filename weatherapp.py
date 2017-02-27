@@ -4,20 +4,9 @@ import requests
 import math
 from functools import partial
 import http.client
+import collections
 
-class Form:
-    def __init__(self, temp_txt, mint_txt, maxt_txt, wther_txt, des_txt, wspd_txt,
-                 wdgr_txt, hmd_txt, slvl_txt, name_txt):
-        self.temp_txt = temp_txt
-        self.mint_txt = mint_txt
-        self.maxt_txt = maxt_txt
-        self.wther_txt = wther_txt
-        self.des_txt = des_txt
-        self.wspd_txt = wspd_txt
-        self.wdgr_txt = wdgr_txt
-        self.hmd_txt = hmd_txt
-        self.slvl_txt = slvl_txt
-        self.name_txt = name_txt
+Form = collections.namedtuple('Form','temp_txt mint_txt maxt_txt wther_txt des_txt wspd_txt wdgr_txt hmd_txt slvl_txt name_txt')
 
 def clear_form(form):
     form.temp_txt.delete(1.0, tk.END)
