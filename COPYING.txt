@@ -1,7 +1,7 @@
 This is the MIT license: http://www.opensource.org/licenses/mit-license.php
 
-Copyright (C) 2015-2016 by Guan Wang.
-densitas is a trademark of Guan Wang.
+Copyright (C) 2017 by Guan Wang.
+weatherapp is a trademark of Guan Wang.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
 software and associated documentation files (the "Software"), to deal in the Software
