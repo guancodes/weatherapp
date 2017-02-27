@@ -6,9 +6,14 @@ from functools import partial
 import http.client
 import collections
 
-Form = collections.namedtuple('Form','temp_txt mint_txt maxt_txt wther_txt des_txt wspd_txt wdgr_txt hmd_txt slvl_txt name_txt')
+Form = collections.namedtuple('Form', 'temp_txt mint_txt maxt_txt wther_txt ' +
+                              'des_txt wspd_txt wdgr_txt hmd_txt slvl_txt name_txt')
 
 def clear_form(form):
+    """Clears all the fields of the weather form
+    Arguments:
+    form -- instance of class Form
+    """
     form.temp_txt.delete(1.0, tk.END)
     form.mint_txt.delete(1.0, tk.END)
     form.maxt_txt.delete(1.0, tk.END)
@@ -20,20 +25,36 @@ def clear_form(form):
     form.slvl_txt.delete(1.0, tk.END)
     form.name_txt.delete(1.0, tk.END)
 
-def web_request(form, city_value):
+def web_request(city_value):
+    """Gets information of a city's weather from weather API
+    Arguments:
+    city_value -- name of the city
+    Returns: dictionary of weather info if API request is successful
+    Or None if not successful
+    """
     citynm = city_value.get()
     params = dict(q=citynm, APPID='26ee310aed6872889843892aa2ff1c1b')
     resp = requests.get('http://api.openweathermap.org/data/2.5/weather', params)
     if resp.status_code == http.client.OK:
         return resp.json()
-    else:
-        form.temp_txt.insert(tk.END, '↑Invalid city name↑')
+
 
 def kelvin_to_celsius(value):
+    """Converts Kelvin to Celsius
+    Argument:
+    value -- temperature in Kelvin
+    Returns: temperature in Celsius
+    """
     return value - 273.15
 
 
 def fill_form_main_section(form, info, na):
+    """Fills the main section of the weather form
+    Arguments:
+    form -- instance of the class Form
+    info -- weather info dictionary returned from web request
+    na -- the value that's used if the requested information is unavailable
+    """
     # information from main section
     main_section = info.get('main')
     if main_section != None:
@@ -75,6 +96,12 @@ def fill_form_main_section(form, info, na):
         form.slvl_txt.insert(tk.END,na)
 
 def fill_form_weather_section(form, info, na):
+    """Fills the weather section of the weather form
+    Arguments:
+    form -- instance of the class Form
+    info -- weather info dictionary returned from web request
+    na -- the value that's used if the requested information is unavailable
+    """
     # information from weather section
     weather_section = info.get('weather')
     if weather_section != None:
@@ -90,6 +117,12 @@ def fill_form_weather_section(form, info, na):
         form.des_txt.insert(tk.END, na)
 
 def fill_form_wind_section(form, info, na):
+    """Fills the wind section of the weather form
+    Arguments:
+    form -- instance of the class Form
+    info -- weather info dictionary returned from web request
+    na -- the value that's used if the requested information is unavailable
+    """
     # wind section
     wind_section = info.get('wind')
     if wind_section != None:
@@ -110,13 +143,28 @@ def fill_form_wind_section(form, info, na):
         form.wdgr_txt.insert(tk.END, na)
 
 def fill_form_name_section(form, info, na):
+    """Fills the name section of the weather form
+    Arguments:
+    form -- instance of the class Form
+    info -- weather info dictionary returned from web request
+    na -- the value that's used if the requested information is unavailable
+    """
     # name section
     name_section = info.get('name', na)
     form.name_txt.insert(tk.END, name_section)
 
 def fill_form(form, city_value):
+    """Fills the entire form
+    This function clears the weather app form, then makes a web request for weather
+    information of a given city name. If the request was successful the information
+    will be inserted to the corresponding fields, otherwise a warning will be inserted
+    in the temperature field.
+    Arguments:
+    form -- instance of the class Form
+    city_value -- name of the city
+    """
     clear_form(form)
-    info = web_request(form, city_value)
+    info = web_request(city_value)
     na = 'n/a'
 
     if info != None:
@@ -124,19 +172,39 @@ def fill_form(form, city_value):
         fill_form_weather_section(form, info, na)
         fill_form_wind_section(form, info, na)
         fill_form_name_section(form, info, na)
+    else:
+        form.temp_txt.insert(tk.END, '↑Invalid city name↑')
 
 def make_label(window, text, row, column):
+    """Makes a label field in the weather app
+    Arguments:
+    window -- window that this label belongs to
+    text -- text that appears on the label
+    row -- row index of the label
+    column -- column index of the label
+    Returns: a label object of type tk.Label
+    """
     label = tk.Label(window, text=text, justify=tk.LEFT)
     label.grid(row=row, column=column)
     return label
 
 def make_text(window, row, column, columnspan=None):
+    """Makes a text field in the weather app
+    Arguments:
+    window -- window that this text field belongs to
+    row -- row index of the text field
+    column -- column index of the text field
+    columnspan -- column span of the text field
+    Returns: an object of type tk.Text
+    """
     txt = tk.Text(window, width=20, height=1)
     txt.grid(row=row, column=column, columnspan=columnspan)
     return txt
 
 
 def main():
+    """Runs the app"""
+
     window = tk.Tk()
 
     make_label(window, 'City', 0, 0)
